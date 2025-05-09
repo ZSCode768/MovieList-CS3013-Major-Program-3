@@ -7,12 +7,9 @@ package edu.msudenver.cs3013.movielist
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -44,10 +41,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(true)
-
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = movieAdapter
@@ -60,36 +53,6 @@ class MainActivity : AppCompatActivity() {
 
         readFile()
     }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when(item.itemId) {
-        R.id.sort_by_title -> {
-            movieList.sortBy { it.title }
-            movieAdapter.notifyDataSetChanged()
-            true
-        }
-        R.id.sort_by_year -> {
-            movieList.sortBy { it.year?.toInt() }
-            movieAdapter.notifyDataSetChanged()
-            true
-        }
-        R.id.sort_by_genre -> {
-            movieList.sortBy { it.genre }
-            movieAdapter.notifyDataSetChanged()
-            true
-        }
-        R.id.sort_by_rating -> {
-            movieList.sortByDescending { it.rating?.toDouble() }
-            movieAdapter.notifyDataSetChanged()
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
-    }
-
 
     fun startAdd() {
         launcher.launch(Intent(this, AddMovieActivity::class.java))
