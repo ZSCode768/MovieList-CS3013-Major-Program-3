@@ -8,14 +8,16 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Movie List"
+        app:title="Movie List"
         android:layout_gravity = "center"
         android:textSize="30sp"
-        android:textColor="@color/white"
-        android:textStyle="bold"
+        app:titleTextColor="@color/white"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:background="@color/blue"
         android:padding="10dp"/>
 

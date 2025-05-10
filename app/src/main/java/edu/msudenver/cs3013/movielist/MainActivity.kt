@@ -7,7 +7,10 @@ package edu.msudenver.cs3013.movielist
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -48,14 +51,63 @@ class MainActivity : AppCompatActivity() {
         ItemTouchHelper(movieAdapter.swipeToDeleteCallback)
             .attachToRecyclerView(recyclerView)
 
+        setSupportActionBar(findViewById<Toolbar>(R.id.toolbar))
+
         findViewById<View>(R.id.addMovieButton).setOnClickListener { startAdd() }
         findViewById<View>(R.id.saveListButton).setOnClickListener { writeFile() }
 
         readFile()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_sort_title -> {
+                sortByTitle()
+                return true
+            }
+            R.id.action_sort_rating -> {
+                sortByRating()
+                return true
+            }
+            R.id.action_sort_year -> {
+                sortByYear()
+                return true
+            }
+            R.id.action_sort_genre -> {
+                sortByGenre()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     fun startAdd() {
         launcher.launch(Intent(this, AddMovieActivity::class.java))
+    }
+
+    private fun sortByTitle() {
+        movieList.sortBy { it.title }
+        movieAdapter.notifyDataSetChanged()
+    }
+
+    private fun sortByRating() {
+        movieList.sortBy { it.rating?.toDouble() }
+        movieAdapter.notifyDataSetChanged()
+    }
+
+    private fun sortByYear() {
+        movieList.sortBy { it.year?.toInt() }
+        movieAdapter.notifyDataSetChanged()
+    }
+
+    private fun sortByGenre() {
+        movieList.sortBy { it.genre }
+        movieAdapter.notifyDataSetChanged()
     }
 
     private fun readFile() {
